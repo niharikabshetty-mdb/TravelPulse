@@ -23,7 +23,7 @@ def test_get_json_translates_http_error() -> None:
     response.raise_for_status.side_effect = requests.HTTPError("missing")
 
     with patch("utils.api_helpers.requests.get", return_value=response):
-        with pytest.raises(APIError, match="HTTP 404") as error:
+        with pytest.raises(APIError, match="resource was not found") as error:
             get_json("https://example.test/missing")
 
     assert error.value.status_code == 404

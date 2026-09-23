@@ -30,8 +30,15 @@ def get_json(
     except requests.ConnectionError as exc:
         raise APIError("The API could not be reached.") from exc
     except requests.HTTPError as exc:
+        messages = {
+            400: "The API rejected the request.",
+            401: "The API requires authentication.",
+            403: "The API denied access to this request.",
+            404: "The requested API resource was not found.",
+            429: "The API rate limit was reached. Try again shortly.",
+        }
         raise APIError(
-            f"The API returned HTTP {response.status_code}.",
+            messages.get(response.status_code, "The API is temporarily unavailable."),
             status_code=response.status_code,
         ) from exc
     except requests.RequestException as exc:

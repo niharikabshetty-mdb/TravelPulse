@@ -102,3 +102,11 @@ Replace the placeholder URL with your actual repository URL. This project does n
 ## Future enhancements
 
 Forecast charts, saved destinations, map visualization, unit preferences, and optional image search would be natural next steps.
+
+## Final verification
+
+- Application modules compile successfully on Python 3.14.
+- Streamlit startup smoke test returned HTTP 200.
+- Live Paris chain returned Paris, France, current weather, and Europe/Paris local time.
+- Automated suite passes: 14 tests.
+- `.env` and `.venv` are ignored by Git; no secrets are committed.

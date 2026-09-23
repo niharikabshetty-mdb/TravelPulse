@@ -21,6 +21,11 @@ def apply_styles() -> None:
         .big-value { font-family: 'Space Grotesk', sans-serif; font-size: 2rem; font-weight: 700; }
         .detail { color: var(--muted); font-size: .9rem; line-height: 1.7; }
         .flag { max-height: 48px; max-width: 80px; object-fit: contain; margin-bottom: .5rem; }
+        @media (max-width: 800px) {
+            .hero { padding-bottom: 1rem; }
+            .hero h1 { font-size: 2.5rem; }
+            .card { min-height: auto; margin-bottom: .75rem; }
+        }
         </style>
         """,
         unsafe_allow_html=True,

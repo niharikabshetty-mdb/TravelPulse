@@ -37,6 +37,8 @@ if submitted:
 
 if st.session_state.get("travel_data"):
 	render_dashboard(st.session_state["travel_data"])
+else:
+	st.info("Search for a destination to create your first travel brief.")
 
 st.divider()
 st.markdown("### About")

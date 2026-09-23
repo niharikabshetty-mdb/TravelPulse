@@ -14,6 +14,6 @@ def get_local_time(timezone_name: str) -> dict[str, str]:
         raise APIError("Local time is unavailable for this destination.") from exc
     return {
         "timezone": timezone_name,
-        "local_time": local_time.strftime("%A, %B %-d, %Y at %-I:%M %p"),
+        "local_time": local_time.strftime("%A, %B %d, %Y at %I:%M %p"),
         "utc_offset": local_time.strftime("UTC%z"),
     }

@@ -1,6 +1,7 @@
 from unittest.mock import patch
 
 from services.travel_service import get_travel_data
+from utils.api_helpers import APIError
 
 
 def test_get_travel_data_chains_all_clients() -> None:
@@ -26,3 +27,13 @@ def test_get_travel_data_chains_all_clients() -> None:
 
     assert result["location"]["city"] == "Paris"
     assert result["currency"]["rate"] == 1.1
+
+
+def test_get_travel_data_propagates_friendly_api_failure() -> None:
+    with patch("services.travel_service.geocode_destination", side_effect=APIError("No destination was found")):
+        try:
+            get_travel_data("Unknown")
+        except APIError as error:
+            assert str(error) == "No destination was found"
+        else:
+            raise AssertionError("Expected APIError")

@@ -33,3 +33,11 @@ def test_get_json_translates_timeout() -> None:
     with patch("utils.api_helpers.requests.get", side_effect=requests.Timeout):
         with pytest.raises(APIError, match="timed out"):
             get_json("https://example.test/slow")
+
+
+def test_get_json_translates_invalid_json() -> None:
+    response = Mock(status_code=200)
+    response.json.side_effect = ValueError("not json")
+    with patch("utils.api_helpers.requests.get", return_value=response):
+        with pytest.raises(APIError, match="invalid JSON"):
+            get_json("https://example.test/bad-json")

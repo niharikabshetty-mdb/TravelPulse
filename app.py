@@ -1,6 +1,7 @@
 """TravelPulse application entry point."""
 
 import streamlit as st
+from dotenv import load_dotenv
 
 from services.travel_service import get_travel_data
 from ui.components import render_dashboard
@@ -8,6 +9,7 @@ from ui.styles import apply_styles
 from utils.api_helpers import APIError
 
 
+load_dotenv()
 st.set_page_config(page_title="TravelPulse", page_icon="🌍", layout="wide")
 apply_styles()
 

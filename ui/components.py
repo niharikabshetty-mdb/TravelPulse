@@ -23,16 +23,30 @@ def render_dashboard(data: dict[str, Any]) -> None:
 
     st.markdown("## Destination brief")
     st.caption(f"Live information for {location['city']}, {location['country']}")
+    country_details = []
+    if country.get("capital") and country["capital"] != "Not available":
+        country_details.append(f"Capital: {country['capital']}")
+    region = " · ".join(
+        value for value in (country.get("region"), country.get("continent"))
+        if value and value != "Not available"
+    )
+    if region:
+        country_details.append(region)
+    if country.get("population", 0) > 0:
+        country_details.append(f"Population: {country['population']:,}")
+    currency_code = country.get("currency_code", "")
+    currency_name = country.get("currency_name", "")
     columns = st.columns(5)
     with columns[0]:
         card("Location", location["city"], f"{location['country']}<br>{location['latitude']:.2f}° N, {location['longitude']:.2f}° E")
     with columns[1]:
         card("Weather", f"{weather['temperature']:.1f}°C", f"{weather['condition']}<br>Humidity {weather['humidity']}%<br>Wind {weather['wind_speed']:.1f} km/h")
     with columns[2]:
-        card("Country", country["country"], f"Capital: {country['capital']}<br>{country['region']} · {country['continent']}<br>Population: {country['population']:,}", image_url=country.get("flag", ""))
+        card("Country", country["country"], "<br>".join(country_details), image_url=country.get("flag", ""))
     with columns[3]:
         rate = currency.get("rate")
-        rate_text = f"1 {currency['base']} = {rate:.4f} {currency['quote']}" if rate else currency.get("message", "Unavailable")
-        card("Currency", f"{country['currency_code']} {country.get('currency_symbol', '')}", f"{country['currency_name']}<br>{rate_text}")
+        rate_text = f"1 {currency['base']} = {rate:.4f} {currency['quote']}" if rate else ""
+        currency_details = [value for value in (currency_name, rate_text) if value]
+        card("Currency", f"{currency_code} {country.get('currency_symbol', '')}".strip(), "<br>".join(currency_details))
     with columns[4]:
         card("Local time", timezone["local_time"], f"{timezone['timezone']}<br>{timezone['utc_offset']}")
